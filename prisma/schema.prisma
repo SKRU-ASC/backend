@@ -1,0 +1,125 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Course {
+  id        String    @id @default(uuid()) @db.Uuid
+  name      String    @db.VarChar(100)
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  Subject   Subject[]
+
+  @@map("course")
+}
+
+model Subject {
+  id        String     @id @default(uuid()) @db.Uuid
+  name      String     @db.VarChar(100)
+  courseId  String     @map("course_id") @db.Uuid
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  Course    Course     @relation(fields: [courseId], references: [id])
+  Activity  Activity[]
+
+  @@map("subject")
+}
+
+model TargetGroup {
+  id                  String                @id @default(uuid()) @db.Uuid
+  name                String                @db.VarChar(100)
+  createdAt           DateTime              @default(now())
+  updatedAt           DateTime              @updatedAt
+  TargetGroupActivity TargetGroupActivity[]
+
+  @@map("target_group")
+}
+
+model Activity {
+  id                  String                @id @default(uuid()) @db.Uuid
+  name                String                @db.VarChar(100)
+  description         String?               @db.Text
+  image               String?               @db.Text
+  hours               Float                 @db.DoublePrecision
+  price               Float                 @db.DoublePrecision
+  isOpen              Boolean               @default(true) @map("is_open")
+  subjectId           String                @map("subject_id") @db.Uuid
+  createdAt           DateTime              @default(now())
+  updatedAt           DateTime              @updatedAt
+  Subject             Subject               @relation(fields: [subjectId], references: [id])
+  TargetGroupActivity TargetGroupActivity[]
+  BookingDetail       BookingDetail[]
+
+  @@map("activity")
+}
+
+model TargetGroupActivity {
+  id            Int         @id @default(autoincrement())
+  targetGroupId String      @map("target_group_id") @db.Uuid
+  activityId    String      @map("activity_id") @db.Uuid
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+  TargetGroup   TargetGroup @relation(fields: [targetGroupId], references: [id])
+  Activity      Activity    @relation(fields: [activityId], references: [id])
+
+  @@map("target_group_activity")
+}
+
+model Booking {
+  id             String          @id @default(uuid()) @db.Uuid
+  firstname      String          @db.VarChar(100)
+  lastname       String          @db.VarChar(100)
+  position       String          @db.VarChar(100)
+  phone          String          @db.VarChar(10)
+  fax            String?         @db.VarChar(20)
+  email          String          @db.VarChar(50)
+  schoolName     String          @db.VarChar(100)
+  schoolProvince String          @db.VarChar(100)
+  schoolDistrict String          @db.VarChar(100)
+  status         BookingStatus   @default(PENDING)
+  adminId        String          @map("admin_id") @db.Uuid
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+  Admin          Admin           @relation(fields: [adminId], references: [id])
+  BookingDetail  BookingDetail[]
+
+  @@map("booking")
+}
+
+enum BookingStatus {
+  COMFIRM
+  CANCEL
+  PENDING
+}
+
+model BookingDetail {
+  id           Int      @id @default(autoincrement())
+  participants Int      @db.SmallInt
+  startDate    DateTime
+  stopDate     DateTime
+  activityId   String   @map("activity_id") @db.Uuid
+  bookingId    String   @map("booking_id") @db.Uuid
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  Activity     Activity @relation(fields: [activityId], references: [id])
+  Booking      Booking  @relation(fields: [bookingId], references: [id])
+
+  @@map("booking_detail")
+}
+
+model Admin {
+  id        String    @id @default(uuid()) @db.Uuid
+  firstname String    @db.VarChar(100)
+  lastname  String    @db.VarChar(100)
+  email     String    @db.VarChar(50)
+  password  String    @db.Text
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  Booking   Booking[]
+
+  @@map("admin")
+}
