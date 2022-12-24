@@ -3,8 +3,10 @@
   "version": "1.0.0",
   "main": "index.ts",
   "scripts": {
+    "prepare": "husky install",
     "start": "tsc && node dist/index.js",
     "dev": "tsx watch src/index.ts",
+    "lint": "eslint src/**/*.ts",
     "commit": "commit"
   },
   "license": "ISC",
