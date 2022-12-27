@@ -23,7 +23,7 @@ specifiers:
   express-validator: ^6.14.2
   husky: ^8.0.2
   multer: 1.4.5-lts.1
-  nanoid: ^4.0.0
+  nanoid: ^3.3.4
   prettier: ^2.8.1
   prisma: ^4.8.0
   tsx: ^3.12.1
@@ -36,7 +36,7 @@ dependencies:
   express: 4.18.2
   express-validator: 6.14.2
   multer: 1.4.5-lts.1
-  nanoid: 4.0.0
+  nanoid: 3.3.4
 
 devDependencies:
   '@commitlint/cli': 17.3.0
@@ -2630,9 +2630,9 @@ packages:
     resolution: {integrity: sha512-r65nCZhrbXXb6dXOACihYApHw2Q6pV0M3V0PSxd74N0+D8nzAdEAITq2oAjA1jVnKI+tGvEBUpqiMh0+rW6zDQ==}
     dev: true
 
-  /nanoid/4.0.0:
-    resolution: {integrity: sha512-IgBP8piMxe/gf73RTQx7hmnhwz0aaEXYakvqZyE302IXW3HyVNhdNGC+O2MwMAVhLEnvXlvKtGbtJf6wvHihCg==}
-    engines: {node: ^14 || ^16 || >=18}
+  /nanoid/3.3.4:
+    resolution: {integrity: sha512-MqBkQh/OHTS2egovRtLk45wEyNXwF+cokD+1YPf9u5VfJiRdAiRwB2froX5Co9Rh20xs4siNPm8naNotSD6RBw==}
+    engines: {node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1}
     hasBin: true
     dev: false
 
