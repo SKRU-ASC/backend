@@ -22,7 +22,7 @@ const GetSubjectRequest: Schema = {
 const UpdateSubjectRequest: Schema = {
   subjectId: {
     isUUID: true,
-    in: 'query',
+    in: 'params',
   },
   name: {
     isString: true,
