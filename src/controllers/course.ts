@@ -4,15 +4,15 @@ import { PrismaClient } from '@prisma/client'
 const prisma = new PrismaClient()
 
 async function newCourse(req: Request, res: Response) {
-  const { name } = req.body
-
   try {
+    const { name } = req.body
+
     const course = await prisma.course.create({
       data: {
         name,
       },
     })
-    res.status(201).send(course)
+    res.status(201).json({ course })
   } catch (err) {
     res.status(500).json(err)
   }
@@ -21,7 +21,7 @@ async function newCourse(req: Request, res: Response) {
 async function courses(req: Request, res: Response) {
   try {
     const courses = await prisma.course.findMany()
-    res.status(200).send(courses)
+    res.status(200).json({ courses })
   } catch (err) {
     res.status(500).json(err)
   }
@@ -36,7 +36,7 @@ async function course(req: Request, res: Response) {
         id,
       },
     })
-    res.status(200).send(course)
+    res.status(200).json({ course })
   } catch (err) {
     res.status(500).json(err)
   }
@@ -55,7 +55,7 @@ async function editCourse(req: Request, res: Response) {
         name,
       },
     })
-    res.status(200).send(course)
+    res.status(200).json({ course })
   } catch (err) {
     res.status(500).json(err)
   }
