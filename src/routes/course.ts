@@ -1,13 +1,30 @@
 import { Router } from 'express'
+import { checkSchema } from 'express-validator'
 
-import { courseController } from '../controllers'
+import {
+  AddCourseRequest,
+  GetCourseRequest,
+  GetCourseByIdRequest,
+  UpdateCourseRequest,
+  RemoveCourseRequest,
+} from '../types/course'
+import { courseControllers } from '../controllers'
 
 const courseRoutes = Router()
 
-courseRoutes.post('/', courseController.newCourse)
-courseRoutes.get('/', courseController.courses)
-courseRoutes.get('/:id', courseController.course)
-courseRoutes.patch('/:id', courseController.editCourse)
-courseRoutes.delete('/:id', courseController.removeCourse)
+courseRoutes
+  .get('/', checkSchema(GetCourseRequest), courseControllers.find)
+  .get(
+    '/:courseId',
+    checkSchema(GetCourseByIdRequest),
+    courseControllers.findById
+  )
+  .post('/', checkSchema(AddCourseRequest), courseControllers.create)
+  .put('/:courseId', checkSchema(UpdateCourseRequest), courseControllers.update)
+  .delete(
+    '/:courseId',
+    checkSchema(RemoveCourseRequest),
+    courseControllers.remove
+  )
 
 export default courseRoutes

@@ -1,79 +1,93 @@
 import { Request, Response } from 'express'
-import { PrismaClient } from '@prisma/client'
+import { validationResult } from 'express-validator'
 
-const prisma = new PrismaClient()
+import { prisma } from '../utils'
 
-async function newCourse(req: Request, res: Response) {
-  try {
-    const { name } = req.body
-
-    const course = await prisma.course.create({
-      data: {
-        name,
-      },
-    })
-    res.status(201).json({ course })
-  } catch (err) {
-    res.status(500).json(err)
+async function find(req: Request, res: Response) {
+  const errors = validationResult(req)
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() })
   }
-}
 
-async function courses(req: Request, res: Response) {
   try {
     const courses = await prisma.course.findMany()
-    res.status(200).json({ courses })
-  } catch (err) {
-    res.status(500).json(err)
+
+    return res.status(200).json({ courses })
+  } catch (error) {
+    return res.status(400).json({ errors })
   }
 }
 
-async function course(req: Request, res: Response) {
-  try {
-    const id = req.params.id
+async function findById(req: Request, res: Response) {
+  const errors = validationResult(req)
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() })
+  }
 
-    const course = await prisma.course.findUniqueOrThrow({
-      where: {
-        id,
-      },
+  try {
+    const { courseId } = req.params
+
+    const courses = await prisma.course.findUnique({
+      where: { id: courseId },
     })
-    res.status(200).json({ course })
-  } catch (err) {
-    res.status(500).json(err)
+
+    return res.status(200).json({ courses })
+  } catch (error) {
+    return res.status(400).json({ errors })
   }
 }
 
-async function editCourse(req: Request, res: Response) {
+async function create(req: Request, res: Response) {
+  const errors = validationResult(req)
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() })
+  }
+
   try {
-    const id = req.params.id
+    const { name } = req.body
+    const newCourse = await prisma.course.create({
+      data: { name },
+    })
+
+    return res.status(201).json({ course: newCourse })
+  } catch (error) {
+    return res.status(400).json({ errors })
+  }
+}
+
+async function update(req: Request, res: Response) {
+  const errors = validationResult(req)
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() })
+  }
+
+  try {
+    const { courseId } = req.params
     const { name } = req.body
 
-    const course = await prisma.course.update({
-      where: {
-        id,
-      },
-      data: {
-        name,
-      },
+    const updatedCourse = await prisma.course.update({
+      data: { name },
+      where: { id: courseId },
     })
-    res.status(200).json({ course })
-  } catch (err) {
-    res.status(500).json(err)
+
+    return res.status(200).json({ course: updatedCourse })
+  } catch (error) {
+    return res.status(400).json({ error })
   }
 }
 
-async function removeCourse(req: Request, res: Response) {
+async function remove(req: Request, res: Response) {
   try {
-    const id = req.params.id
+    const { courseId } = req.params
 
     await prisma.course.delete({
-      where: {
-        id,
-      },
+      where: { id: courseId },
     })
-    res.status(204).end()
-  } catch (err) {
-    res.status(500).json(err)
+
+    return res.status(204).end()
+  } catch (error) {
+    return res.status(400).json({ error })
   }
 }
 
-export default { newCourse, courses, course, editCourse, removeCourse }
+export default { find, findById, create, update, remove }
