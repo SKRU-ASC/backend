@@ -1,10 +1,10 @@
 import { Router } from 'express'
 import uploadRouter from './upload'
-import courseRoutes from './course'
+import subjectRoutes from './subject'
 
 const router = Router()
 
 router.use('/upload', uploadRouter)
-router.use('/course', courseRoutes)
+router.use('/subjects', subjectRoutes)
 
 export default router

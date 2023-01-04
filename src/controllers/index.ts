@@ -1,4 +1,4 @@
 import uploadControllers from './upload'
-import courseController from './course'
+import subjectControllers from './subject'
 
-export { uploadControllers, courseController }
+export { uploadControllers, subjectControllers }
