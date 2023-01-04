@@ -27,11 +27,11 @@ async function findById(req: Request, res: Response) {
   try {
     const { courseId } = req.params
 
-    const courses = await prisma.course.findUnique({
+    const course = await prisma.course.findUnique({
       where: { id: courseId },
     })
 
-    return res.status(200).json({ courses })
+    return res.status(200).json({ course })
   } catch (error) {
     return res.status(400).json({ errors })
   }
