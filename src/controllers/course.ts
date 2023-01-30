@@ -4,17 +4,12 @@ import { validationResult } from 'express-validator'
 import { prisma } from '../utils'
 
 async function find(req: Request, res: Response) {
-  const errors = validationResult(req)
-  if (!errors.isEmpty()) {
-    return res.status(400).json({ errors: errors.array() })
-  }
-
   try {
     const courses = await prisma.course.findMany()
 
     return res.status(200).json({ courses })
   } catch (error) {
-    return res.status(400).json({ errors })
+    return res.status(400).json({ error })
   }
 }
 

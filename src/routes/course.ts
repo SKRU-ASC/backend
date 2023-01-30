@@ -3,7 +3,6 @@ import { checkSchema } from 'express-validator'
 
 import {
   AddCourseRequest,
-  GetCourseRequest,
   GetCourseByIdRequest,
   UpdateCourseRequest,
   RemoveCourseRequest,
@@ -13,7 +12,7 @@ import { courseControllers } from '../controllers'
 const courseRoutes = Router()
 
 courseRoutes
-  .get('/', checkSchema(GetCourseRequest), courseControllers.find)
+  .get('/', courseControllers.find)
   .get(
     '/:courseId',
     checkSchema(GetCourseByIdRequest),

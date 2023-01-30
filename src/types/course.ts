@@ -7,14 +7,6 @@ const AddCourseRequest: Schema = {
   },
 }
 
-const GetCourseRequest: Schema = {
-  courseId: {
-    isUUID: true,
-    in: 'query',
-    optional: true,
-  },
-}
-
 const GetCourseByIdRequest: Schema = {
   courseId: {
     isUUID: true,
@@ -42,7 +34,6 @@ const RemoveCourseRequest: Schema = {
 }
 
 export {
-  GetCourseRequest,
   GetCourseByIdRequest,
   AddCourseRequest,
   UpdateCourseRequest,
