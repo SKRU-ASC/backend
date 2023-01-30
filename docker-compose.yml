@@ -6,7 +6,6 @@ services:
       context: .
       target: dev
     container_name: asc-api
-    platform: linux/amd64
     depends_on:
       - db
     ports:
