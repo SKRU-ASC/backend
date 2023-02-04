@@ -132,3 +132,4 @@ Footer
 
 /uploads
 .db_data
+.redis

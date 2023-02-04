@@ -33,6 +33,15 @@ services:
     networks:
       - web
 
+  redis:
+    image: redis:7-alpine
+    container_name: asc-redis
+    ports:
+      - 6379:6379
+    volumes:
+      - .redis:/data
+    networks:
+      - web
 networks:
   web:
     external: true

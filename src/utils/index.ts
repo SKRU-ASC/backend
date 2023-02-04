@@ -1,3 +1,4 @@
 import prisma from './prisma'
+import redis from './redis'
 
-export { prisma }
+export { prisma, redis }

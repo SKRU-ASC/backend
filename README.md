@@ -12,6 +12,8 @@ pnpm install
 ## Usage
 
 ```bash
+cd backend
+
 cp ./.env.example ./.env
 
 docker compose up
