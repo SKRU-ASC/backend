@@ -4,14 +4,7 @@ const AddCourseRequest: Schema = {
   name: {
     isString: true,
     in: 'body',
-  },
-}
-
-const GetCourseRequest: Schema = {
-  courseId: {
-    isUUID: true,
-    in: 'query',
-    optional: true,
+    errorMessage: 'name must be string',
   },
 }
 
@@ -19,6 +12,7 @@ const GetCourseByIdRequest: Schema = {
   courseId: {
     isUUID: true,
     in: 'params',
+    errorMessage: 'courseId must be UUID',
   },
 }
 
@@ -26,11 +20,12 @@ const UpdateCourseRequest: Schema = {
   courseId: {
     isUUID: true,
     in: 'params',
+    errorMessage: 'courseId must be UUID',
   },
   name: {
     isString: true,
     in: 'body',
-    optional: true,
+    errorMessage: 'name must be string',
   },
 }
 
@@ -38,11 +33,11 @@ const RemoveCourseRequest: Schema = {
   courseId: {
     isUUID: true,
     in: 'params',
+    errorMessage: 'courseId must be UUID',
   },
 }
 
 export {
-  GetCourseRequest,
   GetCourseByIdRequest,
   AddCourseRequest,
   UpdateCourseRequest,
