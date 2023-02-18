@@ -1,6 +1,6 @@
 import { Request, Response } from 'express'
 import { ErrorResponse, SuccessResponse } from '../types/response'
-import { prisma } from '../utils'
+import { prisma, reqValidation } from '../utils'
 
 async function find(req: Request, res: Response) {
   try {
@@ -25,6 +25,8 @@ async function find(req: Request, res: Response) {
 
 async function findById(req: Request, res: Response) {
   try {
+    reqValidation(req)
+
     const { activityId } = req.params
 
     const activity = await prisma.activity.findUniqueOrThrow({
@@ -49,6 +51,8 @@ async function findById(req: Request, res: Response) {
 
 async function create(req: Request, res: Response) {
   try {
+    reqValidation(req)
+
     const { name, description, image, hours, price, subjectId } = req.body
 
     const newActivity = await prisma.activity.create({
@@ -67,6 +71,8 @@ async function create(req: Request, res: Response) {
 
 async function update(req: Request, res: Response) {
   try {
+    reqValidation(req)
+
     const { activityId } = req.params
     const { name, description, image, hours, price, subjectId } = req.body
 
@@ -86,6 +92,8 @@ async function update(req: Request, res: Response) {
 }
 async function remove(req: Request, res: Response) {
   try {
+    reqValidation(req)
+
     const { activityId } = req.params
 
     await prisma.activity.delete({
